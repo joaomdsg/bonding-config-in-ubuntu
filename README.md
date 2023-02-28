@@ -32,7 +32,7 @@ vagrant resume
 vagrant destroy
 ```
 
-## Setup Bonding
+## Playbooks to setup bonding
 
 After the `testbed` VM is up, it can be interacted with using Ansible. This is done by first defining a file called `inventory` that should contain the `IP adress` of the server, a `username` with sudo permission and the path to the ssh `private key`. 
 
