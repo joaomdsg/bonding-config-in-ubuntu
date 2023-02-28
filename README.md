@@ -4,7 +4,9 @@ This project is inteded an an experiment to learn about `Bonding` network interf
 
 `Vagrant` and `VirtualBox` are used to setup a VM called `testbed` running Ubuntu 22.04 that is configured with 5 network interfaces with static IP adresses. One of the addresses is the service address, with the IP of `192.168.30.10`, by wich the VM can be acessed. 
 
-The other 4 interfaces will be combined to a sigle link with a single IP address using the steps found in this oficial Ubuntu [guide](https://help.ubuntu.com/community/UbuntuBonding). 
+The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address using the steps found in this oficial [ubuntu bonding guide](https://help.ubuntu.com/community/UbuntuBonding) and, to create a set `Ansible` playbooks to automate this process as much as possible.
+
+## Testbed
 
 The commands below can be used to manage the `testbed`:
 ```bash
