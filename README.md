@@ -2,7 +2,7 @@
 
 This project is inteded an an experiment to learn about `Bonding` network interfaces in Ubuntu.
 
-The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the steps found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and to develop a set `Ansible` playbooks that automate this process as much as possible.
+The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the steps found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and to develop a set of `Ansible` playbooks that automate this process as much as possible.
 
 ## Development
 - [x] configure testbed VM
