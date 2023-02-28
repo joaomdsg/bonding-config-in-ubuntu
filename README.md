@@ -31,9 +31,11 @@ vagrant destroy
 
 ## Setup Bonding
 
-After the `testbed` VM is up, it can be interacted with using `Ansible`. This is done by first defining a file called `invantory` that should contain the `Ip adress` of the server, a `username` with sudo permission and the path to the ssh `private key`. Then, the set of ansible playbooks can be executed with the `ansible-playbook` command.
+After the `testbed` VM is up, it can be interacted with using Ansible. This is done by first defining a file called `inventory` that should contain the `IP adress` of the server, a `username` with sudo permission and the path to the ssh `private key`. 
 
-Here are the steps to configure linking and trunking on the `testbed`:
+After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
+
+Here are the steps to configure bonding on the `testbed`:
 
 1. List the network interfaces on the server:
    ```bash
