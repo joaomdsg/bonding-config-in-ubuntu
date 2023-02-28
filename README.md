@@ -1,6 +1,6 @@
 # bonding-config-in-ubuntu
 
-This project is inteded an an experiment to learn about `Bonding` network interfaces in Ubuntu.
+This project is inteded as an experiment to learn about `Bonding` network interfaces in Ubuntu.
 
 The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the steps found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and to develop a set of `Ansible` playbooks that automate this process as much as possible.
 
@@ -39,7 +39,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
 
 Here are the steps to configure bonding on the `testbed`:
 
-1. Ensure kernel support for bonding
+1. Ensure kernel support for bonding:
    ```bash
    ansible-playbook -i inventory playbooks/ensure_kernel_supports_bonding.yml
    ```
@@ -52,3 +52,4 @@ Here are the steps to configure bonding on the `testbed`:
 3. Configure bonding on the intended interfaces:
    ```bash
    ansible-playbook -i inventory -e "IF1=<if_name> IF2=<if_name> IF3=<if_name> IF4=<if_name>" playbooks/setup_bonding.yml
+   ```
