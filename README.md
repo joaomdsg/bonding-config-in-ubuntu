@@ -12,7 +12,8 @@ The aim of the experiment is to combine 4 network interfaces into a sigle link w
 
 ## Testbed 
 
-`Vagrant` and `VirtualBox` are used to setup a VM called `testbed` running Ubuntu 22.04 that is configured with 5 network interfaces with static IP adresses. One of these is the service interface with IP `192.168.30.10` by wich the VM can be acessed. 
+`Vagrant` and `VirtualBox` are used to setup a VM called `testbed` running Ubuntu 22.04 that is configured with 5 network interfaces with static IP adresses. One of these is the service interface with IP `192.168.30.10` by wich the VM can be acessed.
+
 
 The commands below can be used to manage the `testbed`:
 ```bash
@@ -34,9 +35,7 @@ vagrant destroy
 
 ## Playbooks to setup bonding
 
-After the `testbed` VM is up, it can be interacted with using Ansible. This is done by first defining a file called `inventory` that should contain the `IP adress` of the server, a `username` with sudo permission and the path to the ssh `private key`. 
-
-After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
+To configure bonding with Ansible, a file called `inventory` should contain the `IP address` of the server, a `username` with sudo permission and the path to the ssh `private key`. After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
 Here are the steps to configure bonding on the `testbed`:
 
