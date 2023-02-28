@@ -6,7 +6,7 @@ This project is inteded an an experiment to learn about `Bonding` network interf
 
 The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address using the steps found in this oficial [ubuntu bonding guide](https://help.ubuntu.com/community/UbuntuBonding) and, to create a set `Ansible` playbooks to automate this process as much as possible.
 
-## Testbed
+## Run the Testbed VM
 
 The commands below can be used to manage the `testbed`:
 ```bash
@@ -28,6 +28,8 @@ vagrant resume
 vagrant destroy
 
 ```
+
+## Setup Bonding
 
 After the `testbed` VM is up, it can be interacted with using `Ansible`. This is done by first defining a file called `invantory` that should contain the `Ip adress` of the server, a `username` with sudo permission and the path to the ssh `private key`. Then, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
