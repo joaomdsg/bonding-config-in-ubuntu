@@ -1,0 +1,14 @@
+---
+- name: Print Network Interface Information
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+    - name: Get network interface information
+      shell: ip addr show | grep "inet " | awk "{print \$NF, \$3, \$2}"
+      register: network_interfaces
+
+    - name: Print interface information
+      debug:
+        msg: "{{ network_interfaces.stdout_lines }}"
+  
