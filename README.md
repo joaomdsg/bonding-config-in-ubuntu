@@ -1,6 +1,6 @@
 # bonding-config-in-ubuntu
 
-This project is inteded as an experiment to learn about `Bonding` network interfaces in Ubuntu.
+This project is inteded as an experiment to learn about network interface `Bonding` in Ubuntu.
 
 The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the steps found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and to develop a set of `Ansible` playbooks that automate this process as much as possible.
 
@@ -12,7 +12,7 @@ The aim of the experiment is to combine 4 network interfaces into a sigle link w
 
 ## Testbed 
 
-`Vagrant` and `VirtualBox` are used to setup a VM called `testbed` running Ubuntu 22.04 that is configured with 5 network interfaces with static IP adresses. One of these is the service interface with IP `192.168.30.10` by wich the VM can be acessed.
+`Vagrant` and `VirtualBox` are used to setup a VM called `testbed` running Ubuntu 22.04 that is configured with 5 network interfaces with static IP adresses. One of these is the service interface with IP `192.168.30.10` by which the VM can be acessed.
 
 
 The commands below can be used to manage the `testbed`:
