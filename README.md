@@ -16,8 +16,6 @@ The aim of the experiment is to combine 4 network interfaces into a sigle link w
 
 The commands below can be used to manage the `testbed`:
 ```bash
-# first, cd to the root of the project folder
-
 # start
 vagrant up
 
@@ -32,7 +30,6 @@ vagrant resume
 
 # stop and delete
 vagrant destroy
-
 ```
 
 ## Setup Bonding
@@ -45,17 +42,14 @@ Here are the steps to configure bonding on the `testbed`:
 
 1. Ensure kernel support for bonding
    ```bash
-   # cd to the root of the project folder, then run:
    ansible-playbook -i inventory playbooks/ensure_kernel_supports_bonding.yml
    ```
 
 2. List the network interfaces on the server:
    ```bash
-   # cd to the root of the project folder, then run:
    ansible-playbook -i inventory playbooks/show_interfaces.yml
    ```
 
 3. Configure bonding on the intended interfaces:
    ```bash
-   # cd to the root of the project folder, then run:
    ansible-playbook -i inventory -e "IF1=<if_name> IF2=<if_name> IF3=<if_name> IF4=<if_name>" playbooks/setup_bonding.yml
