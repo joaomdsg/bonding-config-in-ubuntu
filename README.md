@@ -2,7 +2,7 @@
 
 This project is inteded as an experiment to learn about network interface `Bonding` in Ubuntu.
 
-The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the examples found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and [NetPlan Documentation](https://netplan.readthedocs.io/en/stable/examples/#configuring-interface-bonding) and to develop a set of `Ansible` playbooks that automate this process as much as possible.
+The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the examples found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and [Netplan Documentation](https://netplan.readthedocs.io/en/stable/examples/#configuring-interface-bonding) and to develop a set of `Ansible` playbooks that automate this process as much as possible.
 
 
 ## Testbed 
@@ -51,7 +51,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
   - Ensures kernel support for bonding in the OS
   - Binds the provided `interfaces` in a new interface called `bond0`
     
-    Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` netplan configuration file in the server.
+    Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` Netplan configuration file in the server.
     
     The template defines `bond0` with the folowing parameters:
      - `mode`: 802.3ad
