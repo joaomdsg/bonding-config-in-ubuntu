@@ -58,6 +58,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
      - `bond_lacp_rate`: fast
      - `mii-monitor-interval`: 1
      - `transmit-hash-policy`: layer2+3
+    
     and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
         
     > This configuration uses a combination of Layer 2 (MAC address) and Layer 3 (IP address) information to determine which interface to send traffic over. This allows for a more even distribution of network traffic across all the interfaces in the bond, maximizing bandwidth.
