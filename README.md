@@ -56,9 +56,9 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
      - `bond_lacp_rate`: fast
      - `mii-monitor-interval`: 100
      - `transmit-hash-policy`: layer2
-     
+
     and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
-  - Applies the netplan config file by executing the ´netplan apply´ command
+  - Applies the netplan config file by executing the `netplan apply` command
   
   To execute playbook, run:
   ```bash
