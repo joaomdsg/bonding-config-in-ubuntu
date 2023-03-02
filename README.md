@@ -2,7 +2,7 @@
 
 This project is inteded as an experiment to learn about network interface `Bonding` in Ubuntu.
 
-The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address with `NetPlan`, using the steps found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and [NetPlan Documentation](https://netplan.readthedocs.io/en/stable/examples/#configuring-interface-bonding) and to develop a set of `Ansible` playbooks that automate this process as much as possible.
+The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the examples found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and [NetPlan Documentation](https://netplan.readthedocs.io/en/stable/examples/#configuring-interface-bonding) and to develop a set of `Ansible` playbooks that automate this process as much as possible.
 
 
 ## Testbed 
