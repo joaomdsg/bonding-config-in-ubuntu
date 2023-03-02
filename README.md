@@ -35,17 +35,17 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
 - #### `show_interfaces` playbook
   This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the ´ip´ command with theappropiate arguments to print out network interfaces and IP information.
 
-  Command to execute playbook:
+  To execute playbook, run:
   ```bash
   ansible-playbook playbooks/show_interfaces.yml -i inventory 
   ```
 
 
 - #### `setup_bonding` playbook
-  This playbook needs to be provided with external variables: 
-  - `interfaces`, a comma separated list of interfaces 
-  - `bond_ip`, a static IP in the CIDR notation 
-  - `bond:gateway` and a default gateway IP 
+  This playbook needs to be provided with the folowing variables variables: 
+  - `interfaces`: a comma separated list of interfaces 
+  - `bond_ip`: a static IP in the CIDR notation 
+  - `bond_gateway`: default gateway IP 
   
   It performs the following tasks:
   - Ensures kernel support for bonding in the OS
@@ -59,7 +59,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
     and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
   - Applies the netplan config file by executing the ´netplan apply´ command
   
-  Command to execute playbook:
+  To execute playbook, run:
   ```bash
   # replace the placholders with the intended values and run below to setup the bond
   ansible-playbook playbooks/setup_bonding.yml \
