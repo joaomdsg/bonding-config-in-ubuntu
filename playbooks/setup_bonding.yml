@@ -13,12 +13,12 @@
     bond_gateway: ""
 
   tasks:
-    - name: Check server OS is Ubuntu
+    - name: Fail if server OS is not Ubuntu
       fail:
         msg: "This playbook is intended for Ubuntu only."
       when: ansible_distribution != 'Ubuntu'
 
-    - name: Check external variables were provided
+    - name: Fail if missing variables
       fail:
         msg: Missing variables. Please provide variables by adding '-e "interfaces=if_name_1,if_name_2,if_name_n bond_ip=*.*.*.*/* bond_gateway=*.*.*.*"' to the command
       when: interfaces=="" or bond_ip=="" or bond_gateway==""
@@ -29,10 +29,10 @@
         name: bonding
         state: present
 
-    - name: Configure network interfaces
+    - name: Configure bond
       template:
         src: templates/netplan-config.j2
-        dest: /etc/netplan/01-bonded-interfaces.yaml
+        dest: /etc/netplan/01-bond-cfg.yaml
       notify: Apply Netplan Configuration
 
   handlers:

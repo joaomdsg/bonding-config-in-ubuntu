@@ -4,16 +4,16 @@
   gather_facts: yes
 
   tasks:
-    - name: Check server OS is Ubuntu
+    - name: Fail if server OS is not Ubuntu
       fail:
         msg: "This playbook is intended for Ubuntu only."
       when: ansible_distribution != 'Ubuntu'
 
-    - name: get network interfaces
+    - name: Get network interfaces
       shell: "ip -o link show | awk -F': ' '{print $2}'"
       register: network_interfaces
 
-    - name: get network IP information
+    - name: Get interface IP information
       shell: ip addr show | grep "inet " | awk "{print \$NF, \$3, \$2}"
       register: ip_information
 

@@ -4,11 +4,6 @@ This project is inteded as an experiment to learn about network interface `Bondi
 
 The aim of the experiment is to combine 4 network interfaces into a sigle link with a single IP address, using the steps found in the [Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuBonding), and to develop a set of `Ansible` playbooks that automate this process as much as possible.
 
-## Development
-- [x] configure testbed VM
-- [ ] ensure_kernel_supports_bonding playbook
-- [x] show_interfaces playbook
-- [ ] setup_bonding playbook
 
 ## Testbed 
 
@@ -33,21 +28,57 @@ vagrant resume
 vagrant destroy
 ```
 
-## Playbooks to setup bonding
+## Playbooks to setup a bond
 
 To configure bonding with Ansible, a file called `inventory` should contain the `IP address` of the server, a `username` with sudo permission and the path to the ssh `private key`. After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
-Here are the steps to configure bonding on the `testbed`:
+Here are the steps to configure a bond:
 
 1. List the network interfaces on the server:
    ```bash
-   ansible-playbook -i inventory playbooks/show_interfaces.yml
+   ansible-playbook playbooks/show_interfaces.yml -i inventory
    ```
 
 2. Configure bonding on the intended interfaces:
    ```bash
-   ansible-playbook -i inventory -e "interfaces=if_name_1,if_name_2,if_name_n bond_ip=*.*.*.*/* bond_gateway=*.*.*.*" playbooks/setup_bonding.yml
+   # replace the placholders with the intended values and run below to setup the bond
+   ansible-playbook playbooks/setup_bonding.yml \
+      -i inventory 
+      -e interfaces="if_name_1,if_name_2,if_name_n" \
+      -e bond_ip="*.*.*.*/*" \
+      -e bond_gateway="*.*.*.*" 
+    ```
 
-   # run on the testbed
-   ansible-playbook -i inventory -e "interfaces=enp0s9,enp0s10,enp0s16,enp0s17 bond_ip=192.168.30.11/24 bond_gateway=192.168.30.1" playbooks/setup_bonding.yml
+
+## Example workflow to configure a 4 interface bond on the testbed:
+1. Create a file called inventory and add the testbed access information
+   ```bash
+   touch inventory
+   echo "[testbed_server]\n" > inventory
+   echo "192.168.30.10 ansible_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/testbed/virtualbox/private_key\n" >> inventory
    ```
+
+2. Print out the network interfaces and ip information
+   ```bash
+   ansible-playbook playbooks/show_interfaces.yml \
+      -i inventory \
+      --ssh-extra-args="-o StrictHostKeyChecking=no"
+   ```
+
+3. Configure a bond with the provided interfaces
+   ```bash
+   ansible-playbook playbooks/setup_bonding.yml \
+      -i inventory \
+      -e interfaces="enp0s9,enp0s10,enp0s16,enp0s17" \
+      -e bond_ip="192.168.30.11/24" \
+      -e bond_gateway="192.168.30.1" \
+      --ssh-extra-args="-o StrictHostKeyChecking=no"
+   ```
+
+4. Print out the network interfaces and ip information again to verify the bond is correctly configured
+   ```bash
+   ansible-playbook playbooks/show_interfaces.yml \
+      -i inventory \
+      --ssh-extra-args="-o StrictHostKeyChecking=no"
+   ```
+  
