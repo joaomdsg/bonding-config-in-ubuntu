@@ -87,8 +87,8 @@ Example workflow to configure a 4 interface bond on the testbed:
 1. Create a file called inventory and add the testbed access information to it
    ```bash
    touch inventory
-   echo "[testbed_server]\n" > inventory
-   echo "192.168.30.10 ansible_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/testbed/virtualbox/private_key\n" >> inventory
+   echo "[testbed_server]" > inventory
+   echo "192.168.30.10 ansible_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/testbed/virtualbox/private_key" >> inventory
    ```
 
 2. Print out the network interfaces and ip information
