@@ -42,7 +42,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
 
 
 - #### `setup_bonding` playbook
-  This playbook needs to be provided with the folowing variables variables: 
+  This playbook needs to be provided with the folowing variables: 
   - `interfaces`: a comma separated list of interfaces 
   - `bond_ip`: a static IP in the CIDR notation 
   - `bond_gateway`: default gateway IP 
@@ -71,7 +71,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
 
 
 ## Example workflow to configure a 4 interface bond on the testbed:
-1. Create a file called inventory and add the testbed access information
+1. Create a file called inventory and add the testbed access information to it
    ```bash
    touch inventory
    echo "[testbed_server]\n" > inventory
