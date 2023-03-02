@@ -33,7 +33,7 @@ vagrant destroy
 To configure bonding with Ansible, a file called `inventory` should contain the `IP address` of the server, a `username` with sudo permission and the path to the ssh `private key`. After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
 - #### `show_interfaces` playbook
-  This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the `ip` command with theappropiate arguments to print out network interfaces and IP information.
+  This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the `ip` command with the appropiate arguments to print out network interfaces and IP information.
 
   To execute playbook, run:
   ```bash
