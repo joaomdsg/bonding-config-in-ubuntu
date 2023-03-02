@@ -32,41 +32,42 @@ vagrant destroy
 
 To configure bonding with Ansible, a file called `inventory` should contain the `IP address` of the server, a `username` with sudo permission and the path to the ssh `private key`. After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
-### `show_interfaces` playbook
-This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the ´ip´ command with theappropiate arguments to print out network interfaces and IP information.
+- #### `show_interfaces` playbook
+  This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the ´ip´ command with theappropiate arguments to print out network interfaces and IP information.
 
-Command to execute playbook:
-```bash
-ansible-playbook playbooks/show_interfaces.yml -i inventory 
-```
+  Command to execute playbook:
+  ```bash
+  ansible-playbook playbooks/show_interfaces.yml -i inventory 
+  ```
 
 
-### `setup_bonding` playbook
-This playbook needs to be provided with external variables: 
-- `interfaces`, a comma separated list of interfaces 
-- `bond_ip`, a static IP in the CIDR notation 
-- `bond:gateway` and a default gateway IP 
-
-It performs the following tasks:
-- Ensures kernel support for bonding in the OS
-- Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` netplan configuration file in the server.
-  The template binds the provided `interfaces` in a new interface called `bond0` defined with:
-   - mode: `802.3ad`
-   - bond_lacp_rate: `fast`
-   - mii-monitor-interval: `100`
-   - transmit-hash-policy: `layer2`
-  and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
-- Applies the netplan config file by executing the ´netplan apply´ command
-
-Command to execute playbook:
-```bash
-# replace the placholders with the intended values and run below to setup the bond
-ansible-playbook playbooks/setup_bonding.yml \
-   -i inventory 
-   -e interfaces="if_name_1,if_name_2,if_name_n" \
-   -e bond_ip="*.*.*.*/*" \
-   -e bond_gateway="*.*.*.*" 
-```
+- #### `setup_bonding` playbook
+  This playbook needs to be provided with external variables: 
+  - `interfaces`, a comma separated list of interfaces 
+  - `bond_ip`, a static IP in the CIDR notation 
+  - `bond:gateway` and a default gateway IP 
+  
+  It performs the following tasks:
+  - Ensures kernel support for bonding in the OS
+  - binds the provided `interfaces` in a new interface called `bond0`
+    Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` netplan configuration file in the server.
+    The template defines `bond0` with the folowing parameters:
+     - `mode`: 802.3ad
+     - `bond_lacp_rate`: fast
+     - `mii-monitor-interval`: 100
+     - `transmit-hash-policy`: layer2
+    and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
+  - Applies the netplan config file by executing the ´netplan apply´ command
+  
+  Command to execute playbook:
+  ```bash
+  # replace the placholders with the intended values and run below to setup the bond
+  ansible-playbook playbooks/setup_bonding.yml \
+     -i inventory 
+     -e interfaces="if_name_1,if_name_2,if_name_n" \
+     -e bond_ip="*.*.*.*/*" \
+     -e bond_gateway="*.*.*.*" 
+  ```
 
 
 ## Example workflow to configure a 4 interface bond on the testbed:
