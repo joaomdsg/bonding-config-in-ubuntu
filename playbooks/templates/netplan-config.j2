@@ -14,8 +14,10 @@ network:
             interfaces: [{{ interfaces }}]
             dhcp4: no
             dhcp6: no
-            addresses: [{{ bond_ip_address }}]
-            gateway4: {{ bond_default_gateway }}
+            addresses: [{{ bond_ip }}]
+            gateway4: {{ bond_gateway }}
             parameters:
                 mode: {{ bond_mode }}
                 lacp-rate: {{ bond_lacp_rate }}
+                mii-monitor-interval: 100
+                transmit-hash-policy: layer2

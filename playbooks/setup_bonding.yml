@@ -5,17 +5,12 @@
   gather_facts: yes
 
   vars:
+    interfaces: ""
     bond_name: bond0
     bond_mode: 802.3ad
     bond_lacp_rate: fast
-
-  vars_prompt:
-      - name: interfaces
-        prompt: "Enter a comma-separated list of interfaces to bond"
-      - name: bond_ip_address
-        prompt: "Enter the IP address for the bond interface includinf the mask bits"
-      - name: bond_default_gateway
-        prompt: "Enter the default gateway for the bond interface"
+    bond_ip: ""
+    bond_gateway: ""
 
   tasks:
     - name: Check server OS is Ubuntu
@@ -23,19 +18,10 @@
         msg: "This playbook is intended for Ubuntu only."
       when: ansible_distribution != 'Ubuntu'
 
-    - name: Print provided information
-      debug:
-        msg: "Interfaces: '{{ interfaces }}', Bond IP: '{{ bond_ip_address }}', Bond Default Gateway: '{{ bond_default_gateway }}'"
-
-    - name: Confirm information
-      pause:
-        prompt: "Do you want to continue? (y/n)"
-      register: confirm
-
-    - name: Stop playbook if user chooses not to continue
+    - name: Check external variables were provided
       fail:
-        msg: "Playbook aborted by user."
-      when: confirm.user_input == 'n'      
+        msg: Missing variables. Please provide variables by adding '-e "interfaces=if_name_1,if_name_2,if_name_n bond_ip=*.*.*.*/* bond_gateway=*.*.*.*"' to the command
+      when: interfaces=="" or bond_ip=="" or bond_gateway==""
     
     - name: Ensure bonding kernel module is installed
       become: yes
@@ -52,7 +38,3 @@
   handlers:
     - name: Apply Netplan Configuration
       shell: netplan apply
-
-# enp0s9,enp0s10,enp0s16,enp0s17
-# 192.168.30.11/24
-# 192.168.30.1

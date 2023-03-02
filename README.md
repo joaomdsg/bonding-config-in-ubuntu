@@ -39,17 +39,15 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
 
 Here are the steps to configure bonding on the `testbed`:
 
-1. Ensure kernel support for bonding:
-   ```bash
-   ansible-playbook -i inventory playbooks/ensure_kernel_supports_bonding.yml
-   ```
-
-2. List the network interfaces on the server:
+1. List the network interfaces on the server:
    ```bash
    ansible-playbook -i inventory playbooks/show_interfaces.yml
    ```
 
-3. Configure bonding on the intended interfaces:
+2. Configure bonding on the intended interfaces:
    ```bash
-   ansible-playbook -i inventory -e "IF1=<if_name> IF2=<if_name> IF3=<if_name> IF4=<if_name>" playbooks/setup_bonding.yml
+   ansible-playbook -i inventory -e "interfaces=if_name_1,if_name_2,if_name_n bond_ip=*.*.*.*/* bond_gateway=*.*.*.*" playbooks/setup_bonding.yml
+
+   # run on the testbed
+   ansible-playbook -i inventory -e "interfaces=enp0s9,enp0s10,enp0s16,enp0s17 bond_ip=192.168.30.11/24 bond_gateway=192.168.30.1" playbooks/setup_bonding.yml
    ```
