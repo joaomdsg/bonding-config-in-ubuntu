@@ -6,9 +6,6 @@
 
   vars:
     interfaces: ""
-    bond_name: bond0
-    bond_mode: 802.3ad
-    bond_lacp_rate: fast
     bond_ip: ""
     bond_gateway: ""
 

@@ -17,7 +17,7 @@ network:
             addresses: [{{ bond_ip }}]
             gateway4: {{ bond_gateway }}
             parameters:
-                mode: {{ bond_mode }}
-                lacp-rate: {{ bond_lacp_rate }}
+                mode: 802.3ad
+                lacp-rate: fast
                 mii-monitor-interval: 100
                 transmit-hash-policy: layer2
