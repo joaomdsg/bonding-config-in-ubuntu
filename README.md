@@ -66,7 +66,7 @@ It performs the following tasks:
       
    > This configuration uses a combination of Layer 2 (MAC address) and Layer 3 (IP address) information to determine which interface to send traffic over. This allows for a more even distribution of network traffic across all the interfaces in the bond, maximizing bandwidth.
    >
-   > Additionally, this hash_policy also provides fault tolerance by allowing the bond to continue functioning even if one of the interfaces fails or is disconnected. The remaining interfaces in the bond will continue to handle traffic, ensuring uninterrupted connectivity.
+   > It also provides fault tolerance by allowing the bond to continue functioning even if one of the interfaces fails or is disconnected. The remaining interfaces in the bond will continue to handle traffic, ensuring uninterrupted connectivity.
       
 - Applies the configuration by executing the `netplan apply` command
 
