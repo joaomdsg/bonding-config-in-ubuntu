@@ -58,12 +58,12 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
      - `bond_lacp_rate`: fast
      - `mii-monitor-interval`: 1
      - `transmit-hash-policy`: layer2+3
+        > This configuration uses a combination of Layer 2 (MAC address) and Layer 3 (IP address) information to determine which interface to send traffic over. This allows for a more even distribution of network traffic across all the interfaces in the bond, maximizing bandwidth.
+        >
+        > Additionally, this hash_policy also provides fault tolerance by allowing the bond to continue functioning even if one of the interfaces fails or is disconnected. The remaining interfaces in the bond will continue to handle traffic, ensuring uninterrupted connectivity.
     and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
   - Applies the configuration by executing the `netplan apply` command
 
-   > This configuration uses a combination of Layer 2 (MAC address) and Layer 3 (IP address) information to determine which interface to send traffic over. This allows for a more even distribution of network traffic across all the interfaces in the bond, maximizing bandwidth.
-   >
-   > Additionally, this hash_policy also provides fault tolerance by allowing the bond to continue functioning even if one of the interfaces fails or is disconnected. The remaining interfaces in the bond will continue to handle traffic, ensuring uninterrupted connectivity.
   
   To execute playbook, run:
   ```bash
