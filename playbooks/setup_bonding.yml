@@ -1,0 +1,58 @@
+---
+- name: Configure bond interface with Netplan
+  hosts: all
+  become: true
+  gather_facts: yes
+
+  vars:
+    bond_name: bond0
+    bond_mode: 802.3ad
+    bond_lacp_rate: fast
+
+  vars_prompt:
+      - name: interfaces
+        prompt: "Enter a comma-separated list of interfaces to bond"
+      - name: bond_ip_address
+        prompt: "Enter the IP address for the bond interface includinf the mask bits"
+      - name: bond_default_gateway
+        prompt: "Enter the default gateway for the bond interface"
+
+  tasks:
+    - name: Check server OS is Ubuntu
+      fail:
+        msg: "This playbook is intended for Ubuntu only."
+      when: ansible_distribution != 'Ubuntu'
+
+    - name: Print provided information
+      debug:
+        msg: "Interfaces: '{{ interfaces }}', Bond IP: '{{ bond_ip_address }}', Bond Default Gateway: '{{ bond_default_gateway }}'"
+
+    - name: Confirm information
+      pause:
+        prompt: "Do you want to continue? (y/n)"
+      register: confirm
+
+    - name: Stop playbook if user chooses not to continue
+      fail:
+        msg: "Playbook aborted by user."
+      when: confirm.user_input == 'n'      
+    
+    - name: Ensure bonding kernel module is installed
+      become: yes
+      modprobe:
+        name: bonding
+        state: present
+
+    - name: Configure network interfaces
+      template:
+        src: templates/netplan-config.j2
+        dest: /etc/netplan/01-bonded-interfaces.yaml
+      notify: Apply Netplan Configuration
+
+  handlers:
+    - name: Apply Netplan Configuration
+      shell: netplan apply
+
+# enp0s9,enp0s10,enp0s16,enp0s17
+# 192.168.30.11/24
+# 192.168.30.1

@@ -1,0 +1,21 @@
+---
+network:
+    version: 2
+    renderer: networkd
+    ethernets:
+    {% for interface in interfaces | split(",") %}
+    {{ interface }}:
+            dhcp4: no
+            dhcp6: no
+    {% endfor %}
+
+    bonds:
+        bond0:
+            interfaces: [{{ interfaces }}]
+            dhcp4: no
+            dhcp6: no
+            addresses: [{{ bond_ip_address }}]
+            gateway4: {{ bond_default_gateway }}
+            parameters:
+                mode: {{ bond_mode }}
+                lacp-rate: {{ bond_lacp_rate }}

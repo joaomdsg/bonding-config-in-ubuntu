@@ -4,11 +4,24 @@
   gather_facts: yes
 
   tasks:
-    - name: Get network interface information
-      shell: ip addr show | grep "inet " | awk "{print \$NF, \$3, \$2}"
+    - name: Check server OS is Ubuntu
+      fail:
+        msg: "This playbook is intended for Ubuntu only."
+      when: ansible_distribution != 'Ubuntu'
+
+    - name: get network interfaces
+      shell: "ip -o link show | awk -F': ' '{print $2}'"
       register: network_interfaces
 
-    - name: Print interface information
+    - name: get network IP information
+      shell: ip addr show | grep "inet " | awk "{print \$NF, \$3, \$2}"
+      register: ip_information
+
+    - name: Print interfaces
       debug:
         msg: "{{ network_interfaces.stdout_lines }}"
+
+    - name: Print IP information
+      debug:
+        msg: "{{ ip_information.stdout_lines }}"
   
