@@ -49,13 +49,14 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
   
   It performs the following tasks:
   - Ensures kernel support for bonding in the OS
-  - binds the provided `interfaces` in a new interface called `bond0`
+  - Binds the provided `interfaces` in a new interface called `bond0`
     Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` netplan configuration file in the server.
     The template defines `bond0` with the folowing parameters:
      - `mode`: 802.3ad
      - `bond_lacp_rate`: fast
      - `mii-monitor-interval`: 100
      - `transmit-hash-policy`: layer2
+     
     and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
   - Applies the netplan config file by executing the ´netplan apply´ command
   
