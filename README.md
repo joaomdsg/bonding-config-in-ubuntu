@@ -73,7 +73,7 @@ To configure bonding with Ansible, a file called `inventory` should contain the 
   ```
 
 
-#### Run on the testbed
+## Run on the testbed
 Example workflow to configure a 4 interface bond on the testbed:
 1. Create a file called inventory and add the testbed access information to it
    ```bash
