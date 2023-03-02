@@ -32,51 +32,54 @@ vagrant destroy
 
 To configure bonding with Ansible, a file called `inventory` should contain the `IP address` of the server, a `username` with sudo permission and the path to the ssh `private key`. After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
-- #### `show_interfaces` playbook
-  This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the `ip` command with the appropiate arguments to print out network interfaces and IP information.
+### show_interfaces playbook
+This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the `ip` command with the appropiate arguments to print out network interfaces and IP information.
 
-  To execute playbook, run:
-  ```bash
-  ansible-playbook playbooks/show_interfaces.yml -i inventory 
-  ```
+To execute playbook, run:
+```bash
+ansible-playbook playbooks/show_interfaces.yml -i inventory 
+```
 
 
-- #### `setup_bonding` playbook
-  This playbook needs to be provided with the folowing variables: 
-  - `interfaces`: a comma separated list of interfaces 
-  - `bond_ip`: a static IP in the CIDR notation 
-  - `bond_gateway`: default gateway IP 
-  
-  It performs the following tasks:
-  - Ensures kernel support for bonding in the OS
-  - Binds the provided `interfaces` in a new interface called `bond0`
-    
-    Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` Netplan configuration file in the server.
-    
-    The template defines `bond0` with the folowing parameters:
-     - `mode`: 802.3ad
-     - `bond_lacp_rate`: fast
-     - `mii-monitor-interval`: 1
-     - `transmit-hash-policy`: layer2+3
-    
-    and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
-        
-    > This configuration uses a combination of Layer 2 (MAC address) and Layer 3 (IP address) information to determine which interface to send traffic over. This allows for a more even distribution of network traffic across all the interfaces in the bond, maximizing bandwidth.
-    >
-    > Additionally, this hash_policy also provides fault tolerance by allowing the bond to continue functioning even if one of the interfaces fails or is disconnected. The remaining interfaces in the bond will continue to handle traffic, ensuring uninterrupted connectivity.
-        
-  - Applies the configuration by executing the `netplan apply` command
+### setup_bonding playbook
+This playbook needs to be provided with the folowing variables: 
+- `interfaces`: a comma separated list of interfaces 
+- `bond_ip`: a static IP in the CIDR notation 
+- `bond_gateway`: default gateway IP 
 
-  
-  To execute playbook, run:
-  ```bash
-  # replace the placholders with the intended values and run below to setup the bond
-  ansible-playbook playbooks/setup_bonding.yml \
-     -i inventory 
-     -e interfaces="if_name_1,if_name_2,if_name_n" \
-     -e bond_ip="*.*.*.*/*" \
-     -e bond_gateway="*.*.*.*" 
-  ```
+It performs the following tasks:
+- Ensures kernel support for bonding in the OS
+- Binds the provided `interfaces` in a new interface called `bond0`
+   
+   Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` Netplan configuration file in the server.
+   
+   The template defines `bond0` with the folowing parameters
+   
+   ```bash
+   mode: 802.3ad
+   bond_lacp_rate: fast
+   mii-monitor-interval: 1
+   transmit-hash-policy: layer2+3
+   ````
+
+   and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
+      
+   > This configuration uses a combination of Layer 2 (MAC address) and Layer 3 (IP address) information to determine which interface to send traffic over. This allows for a more even distribution of network traffic across all the interfaces in the bond, maximizing bandwidth.
+   >
+   > Additionally, this hash_policy also provides fault tolerance by allowing the bond to continue functioning even if one of the interfaces fails or is disconnected. The remaining interfaces in the bond will continue to handle traffic, ensuring uninterrupted connectivity.
+      
+- Applies the configuration by executing the `netplan apply` command
+
+
+To execute playbook, run:
+```bash
+# replace the placholders with the intended values and run below to setup the bond
+ansible-playbook playbooks/setup_bonding.yml \
+   -i inventory 
+   -e interfaces="if_name_1,if_name_2,if_name_n" \
+   -e bond_ip="*.*.*.*/*" \
+   -e bond_gateway="*.*.*.*" 
+```
 
 
 ## Run on the testbed
