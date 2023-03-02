@@ -32,22 +32,41 @@ vagrant destroy
 
 To configure bonding with Ansible, a file called `inventory` should contain the `IP address` of the server, a `username` with sudo permission and the path to the ssh `private key`. After that, the set of ansible playbooks can be executed with the `ansible-playbook` command.
 
-Here are the steps to configure a bond:
+### `show_interfaces` playbook
+This playbook is used check how the network is configured on the server and serves as a reference for the `setup_bonding` playbook. It executes the ´ip´ command with theappropiate arguments to print out network interfaces and IP information.
 
-1. List the network interfaces on the server:
-   ```bash
-   ansible-playbook playbooks/show_interfaces.yml -i inventory
-   ```
+Command to execute playbook:
+```bash
+ansible-playbook playbooks/show_interfaces.yml -i inventory 
+```
 
-2. Configure bonding on the intended interfaces:
-   ```bash
-   # replace the placholders with the intended values and run below to setup the bond
-   ansible-playbook playbooks/setup_bonding.yml \
-      -i inventory 
-      -e interfaces="if_name_1,if_name_2,if_name_n" \
-      -e bond_ip="*.*.*.*/*" \
-      -e bond_gateway="*.*.*.*" 
-    ```
+
+### `setup_bonding` playbook
+This playbook needs to be provided with external variables: 
+- `interfaces`, a comma separated list of interfaces 
+- `bond_ip`, a static IP in the CIDR notation 
+- `bond:gateway` and a default gateway IP 
+
+It performs the following tasks:
+- Ensures kernel support for bonding in the OS
+- Uses the template file `templates/netplan-config.j2` to create the `/etc/netplan/01-bond-cfg.yaml` netplan configuration file in the server.
+  The template binds the provided `interfaces` in a new interface called `bond0` defined with:
+   - mode: `802.3ad`
+   - bond_lacp_rate: `fast`
+   - mii-monitor-interval: `100`
+   - transmit-hash-policy: `layer2`
+  and assigns it a static IP address with the provided `bond_ip` and `bond_gateway`.
+- Applies the netplan config file by executing the ´netplan apply´ command
+
+Command to execute playbook:
+```bash
+# replace the placholders with the intended values and run below to setup the bond
+ansible-playbook playbooks/setup_bonding.yml \
+   -i inventory 
+   -e interfaces="if_name_1,if_name_2,if_name_n" \
+   -e bond_ip="*.*.*.*/*" \
+   -e bond_gateway="*.*.*.*" 
+```
 
 
 ## Example workflow to configure a 4 interface bond on the testbed:
@@ -61,24 +80,24 @@ Here are the steps to configure a bond:
 2. Print out the network interfaces and ip information
    ```bash
    ansible-playbook playbooks/show_interfaces.yml \
-      -i inventory \
-      --ssh-extra-args="-o StrictHostKeyChecking=no"
+      --ssh-extra-args="-o StrictHostKeyChecking=no" \
+      -i inventory 
    ```
 
 3. Configure a bond with the provided interfaces
    ```bash
    ansible-playbook playbooks/setup_bonding.yml \
+      --ssh-extra-args="-o StrictHostKeyChecking=no" \
       -i inventory \
       -e interfaces="enp0s9,enp0s10,enp0s16,enp0s17" \
       -e bond_ip="192.168.30.11/24" \
-      -e bond_gateway="192.168.30.1" \
-      --ssh-extra-args="-o StrictHostKeyChecking=no"
+      -e bond_gateway="192.168.30.1" 
    ```
 
 4. Print out the network interfaces and ip information again to verify the bond is correctly configured
    ```bash
    ansible-playbook playbooks/show_interfaces.yml \
-      -i inventory \
-      --ssh-extra-args="-o StrictHostKeyChecking=no"
+      --ssh-extra-args="-o StrictHostKeyChecking=no" \
+      -i inventory 
    ```
   
