@@ -16,10 +16,10 @@ network:
             dhcp6: no
             addresses: [{{ bond_ip }}]
             routes: 
-                to: default
-                via: {{ bond_gateway }}
+                - to: default
+                  via: {{ bond_gateway }}
             parameters:
                 mode: 802.3ad
                 lacp-rate: fast
-                mii-monitor-interval: 100
+                mii-monitor-interval: 1
                 transmit-hash-policy: layer2+3
