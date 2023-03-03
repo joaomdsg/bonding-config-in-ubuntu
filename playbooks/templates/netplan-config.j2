@@ -15,7 +15,9 @@ network:
             dhcp4: no
             dhcp6: no
             addresses: [{{ bond_ip }}]
-            gateway4: {{ bond_gateway }}
+            routes: 
+                to: default
+                via: {{ bond_gateway }}
             parameters:
                 mode: 802.3ad
                 lacp-rate: fast
